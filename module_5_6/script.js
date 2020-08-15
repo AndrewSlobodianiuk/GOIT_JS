@@ -1,334 +1,310 @@
 "use strict";
+// Почему ООП?
+// Какой смысл несет фраза ООП в расшифровке?
 
-// -----------------------------------------------------------------
-//Создание обьекта
-// const obj = {};
-// console.log(obj);
-
-// const obj2 = new Object();
-// console.log(obj2);
-
-// const obj3 = Object.create({});
-// console.log(obj3);
-
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-// Копирование обьекта
-// const obj = { name: "Andrew", age: 29 };
-// const obj2 = obj;
-// obj2.name = "James Bond";
-
-// console.log(obj.name); // ?
-// console.log(obj2.name); // ?
-
-// const obj = { name: "Andrew", age: 29 };
-// const obj2 = {};
-
-// for (let key in obj) {
-//   obj2[key] = obj[key];
-// }
-
-// obj2.name = "James Bond";
-
-// console.log(obj.name); // ?
-// console.log(obj2.name); // ?
-
-// const obj = { name: "Andrew", age: 29 };
-// const obj2 = { ...obj, name: "James Bond" };
-
-// console.log(obj.name); // ?
-// console.log(obj2.name); // ?
-
-// const obj = { name: "Andrew", age: 29, favoriteBrands: ["Nissan", "Apple", "Sony"] };
-// const obj2 = JSON.parse(JSON.stringify(obj));
-// obj2.name = "James Bond";
-
-// console.log(obj.name); // ?
-// console.log(obj2.name); // ?
-
-// const obj = { name: "Andrew", age: 29 };
-// const obj2 = Object.assign({}, obj);
-// obj2.name = "James Bond";
-
-// console.log(obj.name); // ?
-// console.log(obj2.name); // ?
-
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-
-// Проверка свойств Обьекта
-// const person = {
+// --------------------------
+// const user = {
 //   name: "Andrew",
 //   age: 29,
+//   sayName: function () {
+//     console.log(this.name);
+//   },
 // };
 
-// console.log("name" in person);
+// user.sayName();
 
-// person.name = null;
+// -----------------------------
 
-// console.log("name" in person);
-// console.log(person);
+// const logger = {
+//   console: function (msg) {
+//     console.log(msg);
+//   },
 
-// console.log(person.hasOwnProperty("name") && !!person.name);
-
-// ------
-// console.log("toString" in person);
-// console.log(person.__proto__.toString);
-// console.log(person);
-
-// const obj = Object.create(null);
-// obj.name = "Andrew";
-// obj.age = 29;
-
-// console.log("toString" in obj);
-// console.log(obj);
-
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-// Что такое чистая функция?
-// let a = 1;
-
-// const foo = (b) => a + b;
-// const foo = (a, b) => a + b;
-
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-// Что такое функция высшего порядка?
-
-// const foo = (callback) => {
-//   callback();
+//   alert: function (msg) {
+//     alert(msg);
+//   },
 // };
 
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-// Замыкание
-
-// const foo = (a) => (b) => (c) => a + b + c;
-// console.log(foo(1)(1)(1));
-
-//--------------------
-// const foo = (a) => (b) => a + b;
-// const c = foo(1);
-
-// const d = (a) => {
-//   return c(10) + a;
+// const randomGenerator = {
+//   generateNumber: function (max) {
+//     return Math.floor(Math.random() * Math.floor(max));
+//   },
 // };
 
-// console.log(d(10)); //?
-
-//--------------------
-// const b = 1000;
-
-// const foo = (a) => () => a + b;
-// const c = foo(11);
-
-// const d = (b) => {
-//   return c(10) + b;
+// const user = {
+//   name: "Andrew",
+//   age: 29,
+//   sayName: function () {
+//     console.log(this.name);
+//   },
+//   saySmth: function () {
+//     logger.console(randomGenerator.generateNumber(100));
+//   },
 // };
 
-// console.log(d(100)); //?
+// user.saySmth();
 
-//--------------------
-// const makeCounter = () => {
-//   let count = 0;
+//--------------------------------------------------------------
 
-//   return () => count++;
-// };
-
-// let counter = makeCounter();
-// let counter2 = makeCounter();
-
-// console.log(counter()); // 0
-// console.log(counter()); // 1
-
-// console.log(counter2()); // ?
-// console.log(counter2()); // ?
-
-//-------------------------------
-
-// var myname = "global";
-// function func() {
-//   console.log(myname);
-
-//   var myname = "local";
-//   console.log(myname);
+// function User(name = "User", age = 18, hobbies = []) {
+//   this.name = name;
+//   this.age = age;
+//   this.hobbies = hobbies;
 // }
-// func();
 
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
+// const user1 = new User();
+// const user2 = new User("Andrew", 29, ["Bike", "JS"]);
 
-// Разница между call aplly bind?
-// -----------------------------------------------------------------
+// console.log(user1);
+// console.log(user2);
 
-// const inventory = {
-//   items: ["Knife", "Gas mask"],
-//   add(itemName) {
-//     console.log(`Adding ${itemName} to inventory`);
+// console.log(user1 === user2);
 
-//     this.items.push(itemName);
-//   },
-//   remove(itemName) {
-//     console.log(`Removing ${itemName} from inventory`);
+//--------------------------------------------------------------
 
-//     this.items = this.items.filter((item) => item !== itemName);
-//   },
+// function User(name = "User", age = 18, hobbies = []) {
+//   this.name = name;
+//   this.age = age;
+//   this.hobbies = hobbies;
+//   this.sayName = function () {
+//     console.log(this.name);
+//   };
+// }
+
+// const user = new User("Andrew", 29, ["Bike", "JS"]);
+// user.sayName();
+
+//-------------------------------------------------------------
+
+// function User(name = "User", age = 18) {
+//   this.name = name;
+//   this.age = age;
+// }
+
+// const user = new User("Andrew", 29, ["Bike", "JS"]);
+
+// const admin = Object.create(new User("Admin", 29));
+// admin.isAdmin = true;
+// admin.sayYourRights = function () {
+//   console.log(this.isAdmin);
 // };
 
-// const invokeInventoryAction = function (itemName, action) {
-//   console.log(`Invoking action on ${itemName}`);
-//   action(itemName);
+// admin.sayYourRights();
+
+// console.log(admin);
+// --------------------------------------------------------------
+
+// function User(name = "User", age = 18) {
+//   this.name = name;
+//   this.age = age;
+//   this.isAdmin = false;
+// }
+
+// User.prototype.sayYourRights = function () {
+//   console.log(this.isAdmin);
 // };
 
-// invokeInventoryAction("Medkit", inventory.add);
-// // Invoking action on Medkit
-// // Adding Medkit to inventory
+// const user = new User("Andrew", 29, ["Bike", "JS"]);
+// const admin = Object.create(new User("Admin", 29));
+// admin.isAdmin = true;
 
-// console.log(inventory.items); // ['Knife', 'Gas mask', 'Medkit']
+// console.log(user);
+// console.log(admin);
 
-// invokeInventoryAction("Gas mask", inventory.remove);
-// // Invoking action on Gas mask
-// // Removing Gas mask from inventory
+// ----------------------------------------------------------------
+// function User(name = "User", age = 18) {
+//   this.name = name;
+//   this.age = age;
+// }
 
-// console.log(inventory.items); // ['Knife', 'Medkit']
+// function Admin(name, age, pass) {
+//   User.call(this, name, age);
 
-// inventory
-// bind
-// call
+//   this.pass = pass;
+// }
 
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
+// Admin.prototype.getPass = function () {
+//   console.log(this.pass);
+// };
 
-const restaurants = [
-  {
-    order: [],
-    brand: "KFC",
-    menu: {
-      chicken: 50,
-      burger: 50,
-    },
-    deliveryTime: 60,
-  },
-  {
-    order: [],
-    brand: "mcDonalds",
-    menu: {
-      cola: 25,
-      burger: 30,
-    },
-    deliveryTime: 30,
-  },
-  {
-    order: [],
-    brand: "Burger King",
-    menu: {
-      burgerXXL: 170,
-      burger: 70,
-    },
-    deliveryTime: 20,
-  },
-];
+// const admin = new Admin("Andrew", 29, "123");
+// admin.getPass();
 
-const services = {
-  showMenu() {},
-  getMenu() {},
-  addOrder() {},
-  confirmOrder() {},
-};
+//----------------------------------------------------------------
+// function User(name = "User", age = 18) {
+//   this.name = name;
+//   this.age = age;
+// }
 
-const torpedaDelivery = {
-  order: [],
-  chosenRestaurant: "",
-  getAvailableRestaurants() {},
-  chooseRestaurant() {},
-  chooseDishes() {},
-};
+// User.prototype.saySmth = function () {
+//   console.log("Hello guys! Some beer?");
+// };
 
-torpedaDelivery.chooseRestaurant();
-//----------------------------------------------------------------------------------------------------
+// const user = new User("Andrew", 29);
+// user.saySmth();
 
-// const restaurants = [
-//   {
-//     order: [],
-//     brand: "KFC",
-//     menu: {
-//       chicken: 50,
-//       burger: 50,
-//     },
-//     deliveryTime: 60,
-//   },
-//   {
-//     order: [],
-//     brand: "mcDonalds",
-//     menu: {
-//       cola: 25,
-//       burger: 30,
-//     },
-//     deliveryTime: 30,
-//   },
-//   {
-//     order: [],
-//     brand: "Burger King",
-//     menu: {
-//       burgerXXL: 170,
-//       burger: 70,
-//     },
-//     deliveryTime: 20,
-//   },
+// function Admin(name, age, pass) {
+//   User.call(this, name, age);
+
+//   this.pass = pass;
+// }
+
+// Admin.prototype.saySmth = function () {
+//   console.log("Hello girl! I love u");
+// };
+
+// const admin = new Admin("Andrew", 29, "123");
+// admin.saySmth();
+
+// //----------------------------------------------------------------
+// class User {
+//   constructor(name = "User", age = 18) {
+//     this.name = name;
+//     this.age = age;
+//   }
+
+//   saySmth() {
+//     console.log("Hello guys! Some beer?");
+//   }
+// }
+
+// const user = new User("Andrew", 29);
+// user.saySmth();
+
+// class Admin extends User {
+//   constructor(name = "User", age = 18) {
+//     super(name, age);
+//   }
+
+//   saySmth() {
+//     console.log("Hello girl! I love u");
+//   }
+// }
+
+// const admin = new Admin("Andrew", 29, "123");
+// admin.saySmth();
+
+// //----------------------------------------------------------------
+
+// Задачки =)
+
+// // //----------------------------------------------------------------
+// // Найти обьект по айди
+// const users = [
+//   { id: 1, name: "John" },
+//   { id: 2, name: "Pete" },
+//   { id: 3, name: "Mary" },
 // ];
 
-// const services = {
-//   showMenu() {
-//     for (let key in this.menu) {
-//       console.log(`${key} cтоимость ${this.menu[key]}`);
-//     }
-//   },
-//   getMenu() {
-//     return restaurants.find((el) => el.brand === this.chosenRestaurant).menu;
-//   },
-//   addOrder(order) {
-//     this.order.push(order);
-//   },
-//   confirmOrder() {
-//     const deliveryTime = restaurants.find((el) => el.brand === this.chosenRestaurant).deliveryTime;
+// console.log(user); // {id: 2, name: "Pete"}
 
-//     alert(`Вы заказали ${this.order.join("")}. Ожидайте доставку в течении ${deliveryTime} минут`);
-//   },
-// };
+// // //----------------------------------------------------------------
+// // Найти обьект по лучшем скорам
 
-// const torpedaDelivery = {
-//   order: [],
-//   chosenRestaurant: "",
-//   getAvailableRestaurants() {
-//     return restaurants.map((el) => el.brand);
-//   },
+// const users = [
+//   { name: "John", score: 10 },
+//   { name: "Pete", score: 5 },
+//   { name: "Mary", score: 20 },
+// ];
 
-//   chooseRestaurant() {
-//     const availableRestaurants = this.getAvailableRestaurants();
-//     const restaurant = prompt(`Приветствуем! Выбирите ресторан! Доступные рестораны - ${availableRestaurants.join(" , ")}`);
+// console.log(highScoreUsers); // [{ name: "Mary", score: 20}]
 
-//     if (availableRestaurants.includes(restaurant)) {
-//       this.chosenRestaurant = restaurant;
+// // //----------------------------------------------------------------
+// // Вывести строкой - Имя - позиция в массиве Х и сам массив
+// const robots = ["Bender", "Awesom-O", "Johnny 5"];
 
-//       const restaurantEntity = restaurants.find((el) => el.brand === restaurant);
-//       services.showMenu.call(restaurantEntity);
+// // //----------------------------------------------------------------
 
-//       this.chooseDishes();
-//     } else {
-//       alert("Нет такого ресторана =(");
-//     }
-//   },
-//   chooseDishes() {
-//     const dish = prompt(`Выбирите блюдо!`);
-//     const menu = services.getMenu.call(this);
+// const users = [
+//   { name: "Victor", score: 20 },
+//   { name: "Mario", score: 10 },
+//   { name: "Tatiana", score: 30 },
+// ];
 
-//     if (menu.hasOwnProperty(dish)) {
-//       services.addOrder.call(this, dish);
-//       services.confirmOrder.call(this);
-//     } else {
-//       alert("Нет такого блюда");
-//     }
-//   },
-// };
+// console.log(usersSortedByScoreDesc); // [{name: "Tatiana", score: 30}, {name: "Victor", score: 20}, {name: "Mario", score: 10}]
 
-// torpedaDelivery.chooseRestaurant();
+// console.log(usersSortedByScoreAsc); // [{name: "Mario", score: 10}, {name: "Victor", score: 20}, {name: "Tatiana", score: 30}]
+
+// // //----------------------------------------------------------------
+// const animals = ["pigs", "goats", "sheep"];
+
+// console.log(withoutPigs); // ["goats", "sheep"]
+
+// // //----------------------------------------------------------------
+
+// const users = [
+//   { name: "Victor", score: 20 },
+//   { name: "Mario", score: 10 },
+//   { name: "Tatiana", score: 30 },
+// ];
+
+// console.log(scores); // [20, 10, 30]
+
+// // //----------------------------------------------------------------
+
+// const users = [
+//   { name: "Victor", score: 20 },
+//   { name: "Mario", score: 10 },
+//   { name: "Tatiana", score: 30 },
+// ];
+
+// console.log(totalScore); // 60
+
+// const users = [
+//   { name: "Victor", score: 20 },
+//   { name: "Mario", score: 10 },
+//   { name: "Tatiana", score: 30 },
+// ];
+
+// const moreUsers = [
+//   { name: "Laura", score: 50 },
+//   { name: "Jasmine", score: 70 },
+//   { name: "Peter", score: 60 },
+// ];
+
+// console.log(allUsers); // [{name: "Victor", score: 20}, {name: "Mario", score: 10}, {name: "Tatiana", score: 30}, {name: "Laura", score: 50}, {name: "Jasmine", score: 70}, {name: "Peter", score: 60}]
+
+// //----------------------------------------------------------------
+
+// Создайте класс Гамбургер
+// следующая начинка должна быть статик в Классе, что бы можно было ее использовать вот так Humburger.stuffing.STUFFING_SALAD
+const stuffing = {
+  STUFFING_SALAD: {
+    price: 300,
+    ccal: 200,
+  },
+  STUFFING_POTATO: {
+    price: 400,
+    ccal: 100,
+  },
+  TOPPING_MAYO: {
+    price: 300,
+    ccal: 400,
+  },
+  TOPPING_SPICE: {
+    price: 500,
+    ccal: 700,
+  },
+};
+
+// Методы класса------------------------------------------------------
+
+// addSize - Добавляем размер бургера
+// addTopping(Humburger.stuffing.STUFFING_SALAD, ...) - Добавить добавку к гамбургеру. Можно добавить несколько добавок, при условии что они валидные
+//removeTopping(Humburger.stuffing.STUFFING_SALAD, ...) - Убрать добавку, при условии, что она ранее была добавлена.
+// getStuffing геттер должен вернуть this.toppings = [....]
+//calculatePrice() узнать цену гамбургера,
+//calculateCalories() Узнать калорийность гамбургера
+//showError() метод который показывает 2 ошибки - если размер не верный передали, начинка не существует (При удалении или добавлении)
+
+class Humburger {
+  constructor() {
+    this.sizes = {
+      S: 200,
+      L: 300,
+      M: 400,
+    };
+    this.toppings = [];
+    this.size = "";
+  }
+}
