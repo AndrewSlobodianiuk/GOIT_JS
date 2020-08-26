@@ -17,7 +17,7 @@
 
 // const logger = {
 //   console: function (msg) {
-//     console.log(msg);
+//     console.log(msg + "10");
 //   },
 
 //   alert: function (msg) {
@@ -47,7 +47,9 @@
 //--------------------------------------------------------------
 
 // function User(name = "User", age = 18, hobbies = []) {
-//   this.name = name;
+//   var secondName = ' Sl'
+
+//   this.name = name + secondName;
 //   this.age = age;
 //   this.hobbies = hobbies;
 // }
@@ -89,7 +91,11 @@
 //   console.log(this.isAdmin);
 // };
 
-// admin.sayYourRights();
+// admin.sayYourName = function () {
+//   console.log(this.name);
+// };
+
+// admin.sayYourName();
 
 // console.log(admin);
 // --------------------------------------------------------------
@@ -181,8 +187,10 @@
 //   }
 // }
 
+
 // const admin = new Admin("Andrew", 29, "123");
 // admin.saySmth();
+
 
 // //----------------------------------------------------------------
 
@@ -196,7 +204,9 @@
 //   { id: 3, name: "Mary" },
 // ];
 
-// console.log(user); // {id: 2, name: "Pete"}
+// const find = (id) => users.find(user => user.id === id);
+
+// console.log(find(2)); // {id: 2, name: "Pete"}
 
 // // //----------------------------------------------------------------
 // // Найти обьект по лучшем скорам
@@ -207,14 +217,18 @@
 //   { name: "Mary", score: 20 },
 // ];
 
+
+// // const highScoreUsers = users.sort((a, b) => a.score - b.score).reverse().slice(0, 1);
+// const highScoreUsers = [users.reduce((acc, user) => user.score > acc.score ? user : acc)]
+
 // console.log(highScoreUsers); // [{ name: "Mary", score: 20}]
 
 // // //----------------------------------------------------------------
 // // Вывести строкой - Имя - позиция в массиве Х и сам массив
 // const robots = ["Bender", "Awesom-O", "Johnny 5"];
 
-// // //----------------------------------------------------------------
 
+// // //----------------------------------------------------------------
 // const users = [
 //   { name: "Victor", score: 20 },
 //   { name: "Mario", score: 10 },
@@ -222,7 +236,6 @@
 // ];
 
 // console.log(usersSortedByScoreDesc); // [{name: "Tatiana", score: 30}, {name: "Victor", score: 20}, {name: "Mario", score: 10}]
-
 // console.log(usersSortedByScoreAsc); // [{name: "Mario", score: 10}, {name: "Victor", score: 20}, {name: "Tatiana", score: 30}]
 
 // // //----------------------------------------------------------------
@@ -250,6 +263,8 @@
 
 // console.log(totalScore); // 60
 
+// // //----------------------------------------------------------------
+
 // const users = [
 //   { name: "Victor", score: 20 },
 //   { name: "Mario", score: 10 },
@@ -270,18 +285,22 @@
 // следующая начинка должна быть статик в Классе, что бы можно было ее использовать вот так Humburger.stuffing.STUFFING_SALAD
 const stuffing = {
   STUFFING_SALAD: {
+    type: 'STUFFING_SALAD',
     price: 300,
     ccal: 200,
   },
   STUFFING_POTATO: {
+    type: 'STUFFING_POTATO',
     price: 400,
     ccal: 100,
   },
   TOPPING_MAYO: {
+    type: 'TOPPING_MAYO',
     price: 300,
     ccal: 400,
   },
   TOPPING_SPICE: {
+    type: 'TOPPING_SPICE',
     price: 500,
     ccal: 700,
   },
@@ -307,4 +326,69 @@ class Humburger {
     this.toppings = [];
     this.size = "";
   }
+
+static stuffing = stuffing
+
+
+addSize(size) {
+if(Object.keys(this.sizes).includes(size)) {
+  this.size = size;
+
+} else {
+  this.showError()
 }
+}
+
+
+addTopping(toppings) {
+toppings.forEach(topping => {
+  if(Object.keys(Humburger.stuffing).includes(topping)) {
+    this.toppings.push(topping)  
+  } else {
+    this.showError('Topping doesnt exist')
+  }
+});
+}
+
+
+removeTopping(topping) {
+  if(this.toppings.includes(topping)) {
+    this.toppings = this.toppings.filter(el => el !== topping)
+  } else {
+    this.showError('Topping doesnt exist')
+  }
+}
+
+
+get getStuffing() {
+  return this.toppings
+}
+
+
+showError(msg) {
+  console.log(msg);
+}
+
+
+calculatePrice() {
+  return this.toppings.reduce((acc, type)=> {
+    return acc + Humburger.stuffing[type].price;
+  }, this.sizes[this.size])
+}
+}
+
+
+const burger =  new Humburger()
+burger.addSize('S')
+burger.addTopping([Humburger.stuffing.STUFFING_POTATO.type, Humburger.stuffing.STUFFING_SALAD.type])
+burger.removeTopping(Humburger.stuffing.STUFFING_POTATO.type)
+
+console.log(burger.calculatePrice())
+
+console.log(burger.getStuffing)
+
+console.log(burger);
+
+
+
+

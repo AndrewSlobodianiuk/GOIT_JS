@@ -47,27 +47,31 @@
 // console.log(obj2.name); // ?
 
 // const obj = { name: "Andrew", age: 29 };
-// const obj2 = Object.assign({}, obj);
-// obj2.name = "James Bond";
+// const obj3 = {name: '123'}
 
-// console.log(obj.name); // ?
-// console.log(obj2.name); // ?
+
+// const obj2 = Object.assign(obj3, obj);
+
+// console.log(obj); // ?
+// console.log(obj3); // ?
 
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
 
 // Проверка свойств Обьекта
-// const person = {
-//   name: "Andrew",
-//   age: 29,
-// };
+const person = {
+  name: "",
+  age: 29,
+  hobbies: null
+};
 
 // console.log("name" in person);
 
-// person.name = null;
+// person.hobbies = null;
 
 // console.log("name" in person);
 // console.log(person);
+
 
 // console.log(person.hasOwnProperty("name") && !!person.name);
 
@@ -99,10 +103,21 @@
 //   callback();
 // };
 
+
+// const x = [ 1 ,2 ,3 ];
+// const x2 = x.map(el => el * 2).reverse().reduce((acc, el) => {
+// if(el !== 2 ) {
+//   acc += el
+// }
+
+// return acc
+// });
+
+// console.log(x2);
+
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
 // Замыкание
-
 // const foo = (a) => (b) => (c) => a + b + c;
 // console.log(foo(1)(1)(1));
 
@@ -199,6 +214,51 @@
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
 
+// const restaurants = [
+//   {
+//     brand: "KFC",
+//     menu: {
+//       chicken: 50,
+//       burger: 50,
+//     },
+//     deliveryTime: 60,
+//   },
+//   {
+//     brand: "mcDonalds",
+//     menu: {
+//       cola: 25,
+//       burger: 30,
+//     },
+//     deliveryTime: 30,
+//   },
+//   {
+//     brand: "Burger King",
+//     menu: {
+//       burgerXXL: 170,
+//       burger: 70,
+//     },
+//     deliveryTime: 20,
+//   },
+// ];
+
+// const services = {
+//   showMenu() {},
+//   getMenu() {},
+//   addOrder() {},
+//   confirmOrder() {},
+// };
+
+// const torpedaDelivery = {
+//   order: [],
+//   chosenRestaurant: "",
+//   getAvailableRestaurants() {},
+//   chooseRestaurant() {},
+//   chooseDishes() {},
+// };
+
+// torpedaDelivery.chooseRestaurant();
+//----------------------------------------------------------------------------------------------------
+
 const restaurants = [
   {
     order: [],
@@ -230,105 +290,57 @@ const restaurants = [
 ];
 
 const services = {
-  showMenu() {},
-  getMenu() {},
-  addOrder() {},
-  confirmOrder() {},
+  showMenu() {
+    for (let key in this.menu) {
+      console.log(`${key} cтоимость ${this.menu[key]}`);
+    }
+  },
+  getMenu() {
+    return restaurants.find((el) => el.brand === this.chosenRestaurant).menu;
+  },
+  addOrder(order) {
+    this.order.push(order);
+  },
+  confirmOrder() {
+    const deliveryTime = restaurants.find((el) => el.brand === this.chosenRestaurant).deliveryTime;
+
+    alert(`Вы заказали ${this.order.join("")}. Ожидайте доставку в течении ${deliveryTime} минут`);
+  },
 };
 
 const torpedaDelivery = {
   order: [],
   chosenRestaurant: "",
-  getAvailableRestaurants() {},
-  chooseRestaurant() {},
-  chooseDishes() {},
+  getAvailableRestaurants() {
+    return restaurants.map((el) => el.brand);
+  },
+
+  chooseRestaurant() {
+    const availableRestaurants = this.getAvailableRestaurants();
+    const restaurant = prompt(`Приветствуем! Выбирите ресторан! Доступные рестораны - ${availableRestaurants.join(" , ")}`);
+
+    if (availableRestaurants.includes(restaurant)) {
+      this.chosenRestaurant = restaurant;
+
+      const restaurantEntity = restaurants.find((el) => el.brand === restaurant);
+      services.showMenu.call(restaurantEntity);
+
+      this.chooseDishes();
+    } else {
+      alert("Нет такого ресторана =(");
+    }
+  },
+  chooseDishes() {
+    const dish = prompt(`Выбирите блюдо!`);
+    const menu = services.getMenu.call(this);
+
+    if (menu.hasOwnProperty(dish)) {
+      services.addOrder.call(this, dish);
+      services.confirmOrder.call(this);
+    } else {
+      alert("Нет такого блюда");
+    }
+  },
 };
 
 torpedaDelivery.chooseRestaurant();
-//----------------------------------------------------------------------------------------------------
-
-// const restaurants = [
-//   {
-//     order: [],
-//     brand: "KFC",
-//     menu: {
-//       chicken: 50,
-//       burger: 50,
-//     },
-//     deliveryTime: 60,
-//   },
-//   {
-//     order: [],
-//     brand: "mcDonalds",
-//     menu: {
-//       cola: 25,
-//       burger: 30,
-//     },
-//     deliveryTime: 30,
-//   },
-//   {
-//     order: [],
-//     brand: "Burger King",
-//     menu: {
-//       burgerXXL: 170,
-//       burger: 70,
-//     },
-//     deliveryTime: 20,
-//   },
-// ];
-
-// const services = {
-//   showMenu() {
-//     for (let key in this.menu) {
-//       console.log(`${key} cтоимость ${this.menu[key]}`);
-//     }
-//   },
-//   getMenu() {
-//     return restaurants.find((el) => el.brand === this.chosenRestaurant).menu;
-//   },
-//   addOrder(order) {
-//     this.order.push(order);
-//   },
-//   confirmOrder() {
-//     const deliveryTime = restaurants.find((el) => el.brand === this.chosenRestaurant).deliveryTime;
-
-//     alert(`Вы заказали ${this.order.join("")}. Ожидайте доставку в течении ${deliveryTime} минут`);
-//   },
-// };
-
-// const torpedaDelivery = {
-//   order: [],
-//   chosenRestaurant: "",
-//   getAvailableRestaurants() {
-//     return restaurants.map((el) => el.brand);
-//   },
-
-//   chooseRestaurant() {
-//     const availableRestaurants = this.getAvailableRestaurants();
-//     const restaurant = prompt(`Приветствуем! Выбирите ресторан! Доступные рестораны - ${availableRestaurants.join(" , ")}`);
-
-//     if (availableRestaurants.includes(restaurant)) {
-//       this.chosenRestaurant = restaurant;
-
-//       const restaurantEntity = restaurants.find((el) => el.brand === restaurant);
-//       services.showMenu.call(restaurantEntity);
-
-//       this.chooseDishes();
-//     } else {
-//       alert("Нет такого ресторана =(");
-//     }
-//   },
-//   chooseDishes() {
-//     const dish = prompt(`Выбирите блюдо!`);
-//     const menu = services.getMenu.call(this);
-
-//     if (menu.hasOwnProperty(dish)) {
-//       services.addOrder.call(this, dish);
-//       services.confirmOrder.call(this);
-//     } else {
-//       alert("Нет такого блюда");
-//     }
-//   },
-// };
-
-// torpedaDelivery.chooseRestaurant();

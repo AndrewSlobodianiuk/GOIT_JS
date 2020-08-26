@@ -16,8 +16,8 @@
 // console.log(![].length + "1");
 // console.log((true && 10 && false) || 99);
 // console.log((!null && 0) || "Hello".length);
-// console.log(!![].length || undefined || null || +null || "" || 0 == "0" || NaN);
-
+// console.log(!![].length || undefined || null || +null || "" || 0 =="0" || NaN);
+// 
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
 
@@ -66,7 +66,7 @@
 // a.value = 10;
 // console.log(a.value);
 
-// console.log(typeof [] === "array");
+// console.log(typeof [] === "object");
 // console.log(typeof NaN === "number");
 // console.log(NaN === NaN);
 
@@ -133,7 +133,7 @@
 
 // console.log(arr);
 
-// const arr = new Array(9, 10);
+// const arr = new Array(9, 10); 
 // console.log(arr);
 
 // const arr = new Array(10);
