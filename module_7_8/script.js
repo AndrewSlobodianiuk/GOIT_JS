@@ -415,14 +415,18 @@ const closeModal = () => {
 };
 
 const showNextImg = () => {
-  if (modalImg.dataset.index < gallery.length) {
-    setImgToModal(gallery[+modalImg.dataset.index + 1].original, gallery[+modalImg.dataset.index + 1].alt, +modalImg.dataset.index + 1);
+  const nextImgIndex = +modalImg.dataset.index + 1;
+
+  if (nextImgIndex < gallery.length) {
+    setImgToModal(gallery[nextImgIndex].original, gallery[nextImgIndex].alt, nextImgIndex);
   }
 };
 
 const showPrevImg = () => {
-  if (modalImg.dataset.index > 0) {
-    setImgToModal(gallery[modalImg.dataset.index - 1].original, gallery[modalImg.dataset.index - 1].alt, modalImg.dataset.index - 1);
+  const prevImgIndex = modalImg.dataset.index - 1;
+
+  if (prevImgIndex >= 0) {
+    setImgToModal(gallery[prevImgIndex].original, gallery[prevImgIndex].alt, prevImgIndex);
   }
 };
 
