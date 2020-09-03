@@ -304,19 +304,139 @@
       </article> */
 }
 
-const articles = [
+// const articles = [
+//   {
+//     title: "123",
+//     article:
+//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, asperiores optio obcaecati illum nobis aspernatur, suscipit numquam odio quaerat aperiam magni! Aut laboriosam tempore quis placeat esse non impedi aspernatur!",
+//     date: "321",
+//     comments: [{ comment: coment }, { comment: coment }],
+//   },
+//   {
+//     title: "123",
+//     article:
+//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, asperiores optio obcaecati illum nobis aspernatur, suscipit numquam odio quaerat aperiam magni! Aut laboriosam tempore quis placeat esse non impedi aspernatur!",
+//     date: "321",
+//     comments: [{ comment: coment }, { comment: coment }, { comment: coment }],
+//   },
+// ];
+
+const gallery = [
   {
-    title: "123",
-    article:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, asperiores optio obcaecati illum nobis aspernatur, suscipit numquam odio quaerat aperiam magni! Aut laboriosam tempore quis placeat esse non impedi aspernatur!",
-    date: "321",
-    comments: [{ comment: coment }, { comment: coment }],
+    preview: "https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg",
+    description: "Hokkaido Flower",
   },
   {
-    title: "123",
-    article:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, asperiores optio obcaecati illum nobis aspernatur, suscipit numquam odio quaerat aperiam magni! Aut laboriosam tempore quis placeat esse non impedi aspernatur!",
-    date: "321",
-    comments: [{ comment: coment }, { comment: coment }, { comment: coment }],
+    preview: "https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677_1280.jpg",
+    description: "Container Haulage Freight",
+  },
+  {
+    preview: "https://cdn.pixabay.com/photo/2019/05/16/09/47/beach-4206785__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2019/05/16/09/47/beach-4206785_1280.jpg",
+    description: "Aerial Beach View",
+  },
+  {
+    preview: "https://cdn.pixabay.com/photo/2016/11/18/16/19/flowers-1835619__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2016/11/18/16/19/flowers-1835619_1280.jpg",
+    description: "Flower Blooms",
+  },
+  {
+    preview: "https://cdn.pixabay.com/photo/2018/09/13/10/36/mountains-3674334__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2018/09/13/10/36/mountains-3674334_1280.jpg",
+    description: "Alpine Mountains",
+  },
+  {
+    preview: "https://cdn.pixabay.com/photo/2019/05/16/23/04/landscape-4208571__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2019/05/16/23/04/landscape-4208571_1280.jpg",
+    description: "Mountain Lake Sailing",
+  },
+  {
+    preview: "https://cdn.pixabay.com/photo/2019/05/17/09/27/the-alps-4209272__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2019/05/17/09/27/the-alps-4209272_1280.jpg",
+    description: "Alpine Spring Meadows",
+  },
+  {
+    preview: "https://cdn.pixabay.com/photo/2019/05/16/21/10/landscape-4208255__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2019/05/16/21/10/landscape-4208255_1280.jpg",
+    description: "Nature Landscape",
+  },
+  {
+    preview: "https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843__340.jpg",
+    original: "https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843_1280.jpg",
+    description: "Lighthouse Coast Sea",
   },
 ];
+
+const galleryRef = document.querySelector(".js-gallery");
+const lightBox = document.querySelector(".js-lightbox");
+const closeBtn = document.querySelector(".js-close");
+const modalImg = document.querySelector(".js-lightbox__image");
+
+const getTemplateString = (href, src, original, alt, index) =>
+  `<li class="gallery__item">
+  <a
+    class="gallery__link"
+    href="${href}"
+  >
+    <img
+      class="gallery__image"
+      src="${src}"
+      data-source="${original}"
+      data-index="${index}"
+      alt="${alt}"
+    />
+  </a>
+</li>`;
+
+const getTemplateList = () => gallery.reduce((acc, { preview, original, description }, index) => acc + getTemplateString(original, preview, original, description, index), "");
+
+galleryRef.innerHTML = getTemplateList();
+
+const setImgToModal = (src = "", alt = "", index = "") => {
+  modalImg.setAttribute("src", src);
+  modalImg.setAttribute("alt", alt);
+  modalImg.setAttribute("data-index", index);
+};
+
+const openModal = (e) => {
+  e.preventDefault();
+
+  const { dataset = {}, alt = "" } = e.target;
+
+  setImgToModal(dataset.source, alt, dataset.index);
+  lightBox.classList.toggle("is-open");
+};
+
+const closeModal = () => {
+  setImgToModal();
+  lightBox.classList.toggle("is-open");
+};
+
+const showNextImg = () => {
+  if (modalImg.dataset.index < gallery.length) {
+    setImgToModal(gallery[+modalImg.dataset.index + 1].original, gallery[+modalImg.dataset.index + 1].alt, +modalImg.dataset.index + 1);
+  }
+};
+
+const showPrevImg = () => {
+  if (modalImg.dataset.index > 0) {
+    setImgToModal(gallery[modalImg.dataset.index - 1].original, gallery[modalImg.dataset.index - 1].alt, modalImg.dataset.index - 1);
+  }
+};
+
+galleryRef.addEventListener("click", openModal);
+closeBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closeModal();
+});
+modalImg.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+lightBox.addEventListener("click", closeModal);
+window.addEventListener("keydown", (e) => {
+  e.keyCode === 27 && closeModal();
+  e.keyCode === 37 && showPrevImg();
+  e.keyCode === 39 && showNextImg();
+});
