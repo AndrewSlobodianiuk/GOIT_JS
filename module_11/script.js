@@ -42,14 +42,14 @@
 //   drawing: 1,
 //   toJSON() {
 //     return Object.keys(this).filter(el => el !== 'toJSON')
-//   } 
+//   }
 // }
 
 // const obj = {
 //   name: 'Andrew',
 //   age: 30,
 //   skills
-// } 
+// }
 
 // console.log(JSON.stringify(obj))
 
@@ -58,7 +58,7 @@
 // const meetup = JSON.parse(str);
 
 // const meetup = JSON.parse(str, (key, value) => key === 'date' ? new Date(value) : value)
- 
+
 // console.log(meetup.date);
 // console.log( meetup.date.getDate() );
 // -------------------------------------------------------
@@ -106,7 +106,7 @@
 //   const interval = getRandomInt(5) * 1000;
 
 //   timer = setTimeout(tick, interval)
-  
+
 //   console.log(interval);
 //   console.log('tick');
 // }, 1000)
@@ -151,7 +151,7 @@
 // new Promise((resolve, reject) => {
 //   setTimeout(() => resolve('BB from'), 5000)
 
-// }).then((msg) => {  
+// }).then((msg) => {
 //   setTimeout(() => console.log(msg + ' then'), 0)
 
 //   return 123;
@@ -204,15 +204,15 @@
 // })
 
 // -------------------------------------------------------
-// const asyncPromiseFoo = () => new Promise((resolve) => 
+// const asyncPromiseFoo = () => new Promise((resolve) =>
 //                         setTimeout(() => resolve('data from Promise'), 2000))
 //                           .then(data => console.log(data))
 
 // const asyncFoo = async () => {
 //   const data = await new Promise((resolve) => setTimeout(() => resolve('data from asyncFoo'), 4000))
-  
+
 //   console.log(data);
-// } 
+// }
 
 
 // asyncPromiseFoo()
@@ -222,27 +222,11 @@
 // -------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Создайте таймер
+// Таймер можно выставить на 10с/20с/30с. ( У вас должно быть 3 кнопки с данными значениями)
+// У таймера должна быть возможность поставить на паузу, продолжить, сбросить, старт.
+//  Изначально должно быть всего 2 кнопки - старт и сбросить,
+// после старта таймера кнопка старта меняет состояние на пауза,
+// после нажатия на паузу кнопка меняет состояние на продолжить,
+// после нажатия на продолжить кнопка меняет состояние на пауза
+// после нажатия на сбросить кнопка старта снова имеет сочтояние старт
